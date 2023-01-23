@@ -20,12 +20,12 @@ List of registered commands for the bot:
 |   **/back**    |      Play the previous track       |           |
 | **/bassboost** |      Toggle bassboost filter       |           |
 |   **/clear**   |      Clear the current queue.      |           |
-|  **/history**  |     Display the queue history      |  \<page>  |
+|  **/history**  |     Display the queue history      |           |
 |   **/pause**   |       Pause the current song       |           |
-|   **/play**    |      Play a song from youtube      | \<query>  |
-| **/playnext**  | Add a song to the top of the queue | \<query>  |
-|   **/queue**   |           See the queue            |  \<page>  |
-|  **/remove**   |      Remove a specific track       | \<track>  |
+|   **/play**    |      Play a song from youtube      |  \<song>  |
+| **/playnext**  | Add a song to the top of the queue |  \<song>  |
+|   **/queue**   |           See the queue            |           |
+|  **/remove**   |      Remove a specific track       |  \<song>  |
 |  **/resume**   |      Resume the current song       |           |
 |  **/shuffle**  |         Shuffle the queue          |           |
 |   **/skip**    |        Skip the current song       |           |
