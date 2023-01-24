@@ -18,10 +18,7 @@ module.exports = {
         await interaction.deferReply()
 
         const queue = player.getQueue(interaction.guildId);
-        if (!queue || !queue.playing) return interaction.followUp({ 
-            content: `No music currently playing ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        });
+        if (!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
 
         const songName = interaction.options.getString('song')
         const result = await player.search(songName, {
@@ -30,19 +27,13 @@ module.exports = {
         })
         .catch((error) => console.log(error))
 
-        if (!result || !result.tracks.length) return interaction.followUp({
-            content: `No results found ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        });
+        if (!result || !result.tracks.length) return client.error.NO_RESULTS_FOUND
 
         try {
             if (!queue.connection) await queue.connect(interaction.member.voice.channel)
         } catch {
-            void player.deleteQueue(interaction.guildId);
-            return void interaction.followUp({
-                content: "Could not join your voice channel!, try again ? ❌",
-                ephemeral: true
-            })
+            player.deleteQueue(interaction.guildId);
+            return client.error.CONNECTION_FAIL(interaction)
         }
 
         await interaction.followUp({

@@ -7,15 +7,8 @@ module.exports = {
         await interaction.deferReply()
 
         const queue = player.getQueue(interaction.guildId)
-
-        if(!queue || !queue.playing) return interaction.followUp({
-            content: `No music currently playing ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        })
-
-        if (!queue.previousTracks[1]) return interaction.followUp({
-            content: `There was no music played before ${interaction.member}... try again ? ❌`,
-            ephemeral: true });
+        if(!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
+        if (!queue.previousTracks[1]) return client.error.NO_PREVIOUS_TRACKS(interaction)
 
         await queue.back()
         interaction.followUp({

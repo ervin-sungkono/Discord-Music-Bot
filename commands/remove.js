@@ -26,11 +26,7 @@ module.exports = {
         const track = interaction.options.getString('song')
 
         const queue = player.getQueue(interaction.guildId)
-
-        if(!queue || !queue.playing) return interaction.followUp({
-            content: `No music currently playing ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        })
+        if(!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
 
         if (!track && !index) inter.reply({
             content: `You have to use one of the options to remove a song ${interaction.member}... try again ? ❌`,

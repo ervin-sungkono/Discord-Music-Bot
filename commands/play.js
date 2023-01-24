@@ -29,10 +29,7 @@ module.exports = {
         })
         .catch(error => console.log(error))
 
-        if (!result || !result.tracks.length) return interaction.followUp({
-            content: `No results found ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        })
+        if (!result || !result.tracks.length) return client.error.NO_RESULTS_FOUND(interaction)
 
         const queue = await player.createQueue(interaction.guild, {
             metadata: interaction.channel,
@@ -47,10 +44,7 @@ module.exports = {
             if (!queue.connection) await queue.connect(interaction.member.voice.channel)
         } catch {
             player.deleteQueue(interaction.guildId);
-            return void interaction.followUp({
-                content: "Could not join your voice channel!, try again ? ❌",
-                ephemeral: true
-            })
+            return client.error.CONNECTION_FAIL(interaction)
         }
 
         await interaction.followUp({

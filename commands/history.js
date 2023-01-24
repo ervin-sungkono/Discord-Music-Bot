@@ -12,10 +12,7 @@ module.exports = {
         await interaction.deferReply()
 
         const queue = player.getQueue(interaction.guildId)
-        if (!queue) return interaction.followUp({
-            content: `No music currently playing ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        })
+        if (!queue) return client.error.DEFAULT_ERROR(interaction)
 
         const songs = queue.previousTracks.length
         const tracks = queue.previousTracks.reverse().map((track, i) => `**${i + 1} - ${track.title} | ${track.author}** (requested by : ${track.requestedBy.username})`)
@@ -55,6 +52,9 @@ module.exports = {
                 }
             ]
         })
-        else interaction.followUp({embeds : [pages[0]]})
+        else interaction.followUp({
+            embeds : [pages[0]],
+            ephemeral: true
+        })
     }
 }

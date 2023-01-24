@@ -7,11 +7,7 @@ module.exports = {
         await interaction.deferReply()
 
         const queue = player.getQueue(interaction.guildId)
-
-        if (!queue) return interaction.followUp({
-            content: `No music currently playing ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        })
+        if (!queue) return client.error.DEFAULT_ERROR(interaction)
 
         await queue.setFilters({
             bassboost: !queue.getFiltersEnabled().includes('bassboost'),
