@@ -9,18 +9,21 @@ Libraries used in this project:
 4. [dotenv](https://github.com/motdotla/dotenv)
 
 ## Features
-- Slash Command Support
-- Play in multiple servers
-- Easy to use
+- Easy to use 📚
+- Slash Command Support 👏
+- Plays in multiple servers 🎮
 
 ## Commands
 List of registered commands for the bot:
 |      Name      |            Description             |  Options  |
 |:---------------|:----------------------------------:|----------:|
+|  **/autoplay** |        Toggle song autoplay        |           |
 |   **/back**    |      Play the previous track       |           |
 | **/bassboost** |      Toggle bassboost filter       |           |
 |   **/clear**   |      Clear the current queue.      |           |
 |  **/history**  |     Display the queue history      |  \<page>  |
+|   **/loop**    |        Turn on/off looping         | \<action> |
+|   **/lyrics**  |  Show lyrics for now playing song  |           |
 |   **/pause**   |       Pause the current song       |           |
 |   **/play**    |      Play a song from youtube      | \<query>  |
 | **/playnext**  | Add a song to the top of the queue | \<query>  |
@@ -49,6 +52,7 @@ npm install
 cp .env.example .env
 ```
 - `DISCORD_TOKEN` is your Discord bot token, you can find it [here](https://discord.com/developers/applications)
+- `GENIUS_API` is your Genius API token, you can find it [here](https://docs.genius.com/) (optional)
 4. Start the bot
 ```sh
 npm start

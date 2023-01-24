@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits } = require('discord.js')
 const { Player } = require('discord-player')
+
 require('dotenv').config()
 
 global.TOKEN = process.env.DISCORD_TOKEN

@@ -28,10 +28,10 @@ module.exports = {
             requestedBy: interaction.member,
             searchEngine: QueryType.AUTO
         })
-        .catch(() => {})
+        .catch((error) => console.log(error))
 
         if (!result || !result.tracks.length) return interaction.followUp({
-            content: `No results found ${interaction.member}... try again ? `,
+            content: `No results found ${interaction.member}... try again ? ❌`,
             ephemeral: true
         });
 
