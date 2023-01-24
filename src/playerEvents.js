@@ -26,11 +26,11 @@ player.on('trackAdd', (queue, track) => {
     const embed = new EmbedBuilder()
         .setDescription(`Track **${track.title}** added in the queue ✅`)
         .setColor('#e6cc00')
-    queue.metadata.send({ embeds: [embed] }).then(message => setTimeout(message.delete(), 30000)) // Delete after 30 seconds
+    queue.metadata.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
 });
 
 client.on('trackEnd' , (guildId = 0) => {
-    if(!messages[`${guildId}`]) {
+    if(messages[`${guildId}`]) {
         messages[`${guildId}`].delete()
         messages[`${guildId}`] = null
     }
