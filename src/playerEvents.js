@@ -30,7 +30,10 @@ player.on('trackAdd', (queue, track) => {
 });
 
 client.on('trackEnd' , (guildId = 0) => {
-    if(messages[`${guildId}`] && !messages[`${guildId}`].deleted) messages[`${guildId}`].delete()
+    if(messages[`${guildId}`]) {
+        messages[`${guildId}`].delete()
+        messages[`${guildId}`] = null
+    }
 })
 
 player.on('botDisconnect', (queue) => {

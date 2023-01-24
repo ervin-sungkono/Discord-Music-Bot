@@ -37,7 +37,7 @@ module.exports = {
             embeds: pages,
             author: interaction.member.user,
             interaction: interaction,
-            ephemeral: false,
+            ephemeral: true,
             time: client.config.paginate.time,
             disableButtons: client.config.paginate.disableButtons,
             fastSkip: client.config.paginate.fastSkip,

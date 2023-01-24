@@ -11,7 +11,7 @@ module.exports = {
         if (!queue || !queue.playing) return interaction.followUp({ 
             content: `No music currently playing ${interaction.member}... try again ? ❌`,
             ephemeral: true
-        });
+        })
 
         const currentTrack = queue.current
         const success = await queue.skip();
