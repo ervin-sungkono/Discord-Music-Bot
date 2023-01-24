@@ -23,7 +23,7 @@ List of registered commands for the bot:
 |   **/clear**   |      Clear the current queue.      |           |
 |  **/history**  |     Display the queue history      |           |
 |   **/loop**    |        Turn on/off looping         | \<action> |
-|   **/lyrics**  |  Show lyrics for now playing song  |           |
+|   **/lyrics**  |       Show lyrics for a song       |  \<song>  |
 |  **/history**  |     Display the queue history      |           |
 |   **/pause**   |       Pause the current song       |           |
 |   **/play**    |      Play a song from youtube      |  \<song>  |

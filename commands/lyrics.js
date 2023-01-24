@@ -1,11 +1,19 @@
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
 const { Lyrics } = require('@discord-player/extractor')
 const lyricsClient = Lyrics.init(process.env.GENIUS_API)
 
 module.exports = {
     name: 'lyrics',
-    description: 'Show lyrics for now playing song',
+    description: 'Show lyrics for a song/now playing',
     voiceChannel: true,
+    options: [
+        {
+            name: 'song',
+            description: 'Name of song to get lyrics',
+            type: ApplicationCommandOptionType.String,
+            required: false,
+        }
+    ],
 
     async execute({ interaction }){
         await interaction.deferReply()
@@ -17,7 +25,8 @@ module.exports = {
             ephemeral: true
         })
 
-        const lyrics = await lyricsClient.search(queue.current.title)
+        const query = interaction.options.getString('song') || queue.current.title
+        const lyrics = await lyricsClient.search(query)
             .then(x => x.lyrics)
             .catch(error => console.log(error))
 
@@ -32,7 +41,8 @@ module.exports = {
             .setColor("#3498DB")
 
         return interaction.followUp({
-            embeds: [embed]
+            embeds: [embed],
+            ephemeral: true
         })
     }
 }
