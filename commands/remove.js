@@ -28,7 +28,7 @@ module.exports = {
         const queue = player.getQueue(interaction.guildId)
         if(!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
 
-        if (!track && !index) inter.reply({
+        if (!track && !index) interaction.followUp({
             content: `You have to use one of the options to remove a song ${interaction.member}... try again ? ❌`,
             ephemeral: true
         });
@@ -42,7 +42,7 @@ module.exports = {
                 })
             }
             return interaction.followUp({
-                content: `Couldn't find **${track}** ${inter.member}... try using the url or the full name of the song ? ❌`,
+                content: `Couldn't find **${track}** ${interaction.member}... try using the url or the full name of the song ? ❌`,
                 ephemeral: true
             })
         }
