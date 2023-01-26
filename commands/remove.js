@@ -49,16 +49,16 @@ module.exports = {
 
         if(index){
             const trackIndex = index - 1
-            const trackName = queue.tracks[trackIndex].title
+            const track = queue.tracks[trackIndex]
 
-            if(!trackName) return interaction.followUp({
+            if(!track) return interaction.followUp({
                 content: `This track doesn't exist ${interaction.member}...  try again ?❌`,
                 ephemeral: true
             })
 
             await queue.remove(trackIndex)
             return interaction.followUp({
-                content: `Removed **${trackName}** from the queue ✅`
+                content: `Removed **${track.title}** from the queue ✅`
             })
         }
     }

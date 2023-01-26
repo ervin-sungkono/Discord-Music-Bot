@@ -1,3 +1,4 @@
+const { QueueRepeatMode } = require('discord-player');
 const { EmbedBuilder } = require('discord.js')
 
 player.on('error', (queue, error) => {
@@ -12,11 +13,13 @@ player.on('connectionError', (queue, error) => {
 
 const messages = {}
 player.on('trackStart', (queue, track) => {
-    if (!client.config.opt.loopMessage && queue.repeatMode !== 0) return;
+    if (queue.repeatMode === QueueRepeatMode.TRACK) return;
     client.emit('trackEnd', queue.metadata.guild.id)
     const embed = new EmbedBuilder()
-        .setTitle(`Now playing ${track.title} in ${queue.connection.channel.name} 🎧`)
-        .setDescription(`Requested by: ${track.requestedBy}`)
+        .setURL(track.url)
+        .setThumbnail(track.thumbnail)
+        .setTitle(`${track.title}`)
+        .addFields({name: `Now Playing in ${queue.connection.channel.name} 🎧`, value: `Requested by ${track.requestedBy}`})
         .setColor('#13f857')
 
     queue.metadata.send({ embeds: [embed] }).then(message => messages[`${queue.metadata.guild.id}`] = message)
@@ -24,8 +27,10 @@ player.on('trackStart', (queue, track) => {
 
 player.on('trackAdd', (queue, track) => {
     const embed = new EmbedBuilder()
-        .setDescription(`Track **${track.title}** added in the queue ✅`)
+        .setThumbnail(track.thumbnail)
+        .addFields({name: 'New Track Added! ✅', value: `${track.title}`})
         .setColor('#e6cc00')
+
     queue.metadata.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
 });
 

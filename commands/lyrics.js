@@ -1,6 +1,6 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const { Lyrics } = require('@discord-player/extractor')
-const lyricsClient = Lyrics.init(process.env.GENIUS_API)
+const { lyricsExtractor } = require('@discord-player/extractor')
+const lyricsClient = lyricsExtractor(process.env.GENIUS_API)
 
 module.exports = {
     name: 'lyrics',
@@ -19,21 +19,21 @@ module.exports = {
         await interaction.deferReply()
 
         const queue = player.getQueue(interaction.guildId)
-        if(!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
+        if((!queue || !queue.playing) && !interaction.options.getString('song')) return client.error.DEFAULT_ERROR(interaction)
 
         const query = interaction.options.getString('song') || queue.current.title
-        const lyrics = await lyricsClient.search(query)
-            .then(x => x.lyrics)
+        const data = await lyricsClient.search(query)
             .catch(error => console.log(error))
 
-        if(!lyrics) return interaction.followUp({
+        if(!data) return interaction.followUp({
             content: `No lyrics found ${interaction.member}... try again ? ❌`,
             ephemeral: true
         })
 
         const embed = new EmbedBuilder()
-            .setTitle(queue.current.title)
-            .setDescription(lyrics.substring(0,4095))
+            .setThumbnail(data.thumbnail)
+            .setTitle(data.title)
+            .setDescription(data.lyrics.substring(0,4095))
             .setColor("#3498DB")
 
         return interaction.followUp({

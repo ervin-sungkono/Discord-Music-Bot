@@ -18,10 +18,6 @@ module.exports = {
         await interaction.deferReply()
         
         const songName = interaction.options.getString('song')
-        if(songName.includes("open.spotify.com")) return interaction.followUp({
-            content: `Cannot play spotify from URL ${interaction.member}... try again ? ❌`,
-            ephemeral: true
-        })
 
         const result = await player.search(songName, {
             requestedBy: interaction.member,

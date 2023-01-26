@@ -13,9 +13,11 @@ module.exports = {
 
         const queue = player.getQueue(interaction.guildId)
         if (!queue) return client.error.DEFAULT_ERROR(interaction)
+        if (!queue.previousTracks[1]) return client.error.NO_PREVIOUS_TRACKS(interaction)
 
-        const songs = queue.previousTracks.length
-        const tracks = queue.previousTracks.reverse().map((track, i) => `**${i + 1} - ${track.title} | ${track.author}** (requested by : ${track.requestedBy.username})`)
+        const previousTracks = queue.previousTracks.reverse().slice(1)
+        const songs = previousTracks.length
+        const tracks = previousTracks.map((track, i) => `**${i + 1} - ${track.title} | ${track.author}** (requested by : ${track.requestedBy.username})`)
         const pages = []
 
         for(let i = 0; i < Math.ceil(tracks.length / ITEMS_PER_PAGE); i++){
@@ -24,7 +26,7 @@ module.exports = {
             const nextSongs = songs > ITEMS_PER_PAGE ? endIndex > songs ? '~ End of the queue history ~' : `And **${songs - endIndex}** other song(s)...` : `**${songs}** song(s) in the playlist`
             const embed = new EmbedBuilder()
                 .setTitle(`Queue History - Page ${i+1}`)
-                .setDescription(`Now playing: ${queue.current?.title || "Nothing"}\n\n${tracks.slice(startIndex, endIndex).join('\n')}\n\n${nextSongs}`)
+                .setDescription(`Now playing: **${queue.current?.title || "Nothing"}**\n\n${tracks.slice(startIndex, endIndex).join('\n')}\n\n${nextSongs}`)
                 .setColor('#ff0000')
 
             pages.push(embed)

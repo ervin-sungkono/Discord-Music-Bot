@@ -18,7 +18,7 @@ module.exports = {
 
         const songs = queue.tracks.length
         const tracks = queue.tracks.map((track, i) => `**${i + 1} - ${track.title} | ${track.author}** (requested by : ${track.requestedBy.username})`)
-        const mode = ['', '🔁', '🔂', '🅰️'];
+        const mode = ['OFF', '🔁', '🔂', '🅰️'];
         const pages = []
 
         for(let i = 0; i < Math.ceil(tracks.length / ITEMS_PER_PAGE); i++){
@@ -26,8 +26,8 @@ module.exports = {
             const endIndex = startIndex + ITEMS_PER_PAGE
             const nextSongs = songs > ITEMS_PER_PAGE ? endIndex > songs ? '~ End of the queue ~' : `And **${songs - endIndex}** other song(s)...` : `**${songs}** song(s) in the playlist`
             const embed = new EmbedBuilder()
-                .setTitle(`Queue List - Page ${i+1} | Mode: ${mode[queue.repeatMode]}`)
-                .setDescription(`Now playing: ${queue.current.title}\n\n${tracks.slice(startIndex, endIndex).join('\n')}\n\n${nextSongs}`)
+                .setTitle(`Queue List - Page ${i+1} | Loop Mode: ${mode[queue.repeatMode]}`)
+                .setDescription(`Now playing: **${queue.current.title}**\n\n${tracks.slice(startIndex, endIndex).join('\n')}\n\n${nextSongs}`)
                 .setColor('#ff0000')
 
             pages.push(embed)

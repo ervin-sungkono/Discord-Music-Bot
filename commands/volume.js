@@ -25,7 +25,7 @@ module.exports = {
 
         const volume = parseInt(interaction.options.getNumber('amount'))
 
-        if(volume == null) return interaction.followUp({
+        if(volume === null) return interaction.followUp({
             content: `🎧 Current volume is **${queue.volume}**%`,
             ephemeral: true
         })
