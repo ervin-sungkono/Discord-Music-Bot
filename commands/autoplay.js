@@ -1,4 +1,4 @@
-const { QueueRepeatMode } = require('discord-player');
+const { QueueRepeatMode } = require('discord-player')
 
 module.exports = {
     name: 'autoplay',

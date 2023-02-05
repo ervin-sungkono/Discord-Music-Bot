@@ -14,7 +14,7 @@ module.exports = {
 
         return interaction.followUp({ 
             content: success ? 
-            `Skipped track "${currentTrack.title}" ! ✅` : 
+            `Skipped track **${currentTrack.title}** ✅` : 
             `Something went wrong ${interaction.member}... try again ? ❌`,
         });
     },

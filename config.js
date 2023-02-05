@@ -6,10 +6,11 @@ module.exports = {
         maxVol: 100,
         defaultvolume: 75,
         minVol: 0,
-        leaveOnEnd: false,
+        leaveOnEnd: true,
+        leaveOnEndCooldown: 300000, // 5 minutes
         leaveOnStop: true,
         leaveOnEmpty: true,
-        leaveOnEmptyCooldown: 5000,
+        leaveOnEmptyCooldown: 5000, // 5 seconds
         discordPlayer: {
             ytdlOptions: {
                 quality: 'highestaudio',

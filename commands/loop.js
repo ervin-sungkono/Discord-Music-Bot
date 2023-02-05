@@ -1,5 +1,5 @@
-const { QueueRepeatMode } = require('discord-player');
-const { ApplicationCommandOptionType } = require('discord.js');
+const { QueueRepeatMode } = require('discord-player')
+const { ApplicationCommandOptionType } = require('discord.js')
 
 module.exports = {
     name: 'loop',
