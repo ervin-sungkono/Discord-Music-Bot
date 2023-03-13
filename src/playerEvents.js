@@ -38,7 +38,7 @@ player.events.on('audioTrackAdd', (queue, track) => {
         .addFields({name: 'New Track Added! ✅', value: `${track.title} \`(${track.duration})\``})
         .setColor('#e6cc00')
 
-    queue.metadata.channel.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
+    queue.metadata.channel.send({ embeds: [embed] })
 })
 
 client.on('trackEnd' , (guildId = 0) => {
@@ -71,5 +71,5 @@ player.events.on('audioTracksAdd', (queue, tracks) => {
         .addFields({name: 'New Playlist Added! ✅', value: `${tracks.length} song(s) have been added to queue`})
         .setColor('#e6cc00')
 
-    queue.metadata.channel.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
+    queue.metadata.channel.send({ embeds: [embed] })
 })

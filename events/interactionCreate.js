@@ -1,6 +1,6 @@
 const { EmbedBuilder, InteractionType } = require('discord.js')
 
-module.exports = (client, interaction) => {
+module.exports = async(client, interaction) => {
     if (interaction.type === InteractionType.ApplicationCommand) {
         const command = client.commands.get(interaction.commandName);
 
@@ -22,5 +22,9 @@ module.exports = (client, interaction) => {
             }
         }
         command.execute({ client, interaction })
+    }
+    else if (interaction.type = InteractionType.ApplicationCommandAutocomplete) {
+        const command = client.commands.get(interaction.commandName);
+        await command.autocomplete({ interaction });
     }
 }

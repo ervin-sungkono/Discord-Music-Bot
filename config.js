@@ -16,7 +16,8 @@ module.exports = {
                 quality: 'highestaudio',
                 highWaterMark: 1 << 27
             }
-        }
+        },
+        maxNumberOfChoices: 10, // Maximum autocomplete choices, shouldn't be more than 25
     },
     paginate: {
         fastSkip: true, // creates two additional button, one for skip to end, one for skip to first

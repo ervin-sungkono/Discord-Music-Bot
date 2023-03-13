@@ -1,5 +1,6 @@
 const { QueryType } = require('discord-player')
 const { ApplicationCommandOptionType } = require('discord.js')
+const MAX_NUMBER_OF_CHOICES = client.config.opt.maxNumberOfChoices
 
 module.exports = {
     name : 'play',
@@ -10,9 +11,22 @@ module.exports = {
             name : 'song',
             description: 'name of song to play',
             type : ApplicationCommandOptionType.String,
-            required : true
+            required : true,
+            autocomplete : true
         }
     ],
+
+    async autocomplete({ interaction }) {
+        const query = interaction.options.getString('song', true);
+        const results = await player.search(query);
+
+        return interaction.respond(
+            results.tracks.slice(0, MAX_NUMBER_OF_CHOICES).map((t) => ({
+                name: t.title,
+                value: t.url
+            }))
+        );
+    },
 
     async execute ({ interaction }) {
         await interaction.deferReply()
