@@ -23,17 +23,17 @@ module.exports = {
         const queue = player.nodes.get(interaction.guildId)
         if (!queue) return client.error.DEFAULT_ERROR(interaction)
 
-        const volume = parseInt(interaction.options.getNumber('amount')) ?? null
+        const volume = parseInt(interaction.options.getNumber('amount'))
 
-        if(volume == null) return interaction.followUp({
-            content: `🎧 Current volume is **${queue.volume}**%`,
+        if(isNaN(volume)) return interaction.followUp({
+            content: `🎧 Current volume is **${queue.node.volume}**%`,
             ephemeral: true
         })
 
         const success = queue.node.setVolume(volume)
         return interaction.followUp({
             content: success ?
-            `Music volume set to **${volume}**%! ✅` :
+            `Music volume set to **${queue.node.volume}**%! ✅` :
             `Something went wrong ${interaction.member}... try again ? ❌`
         })
     }
