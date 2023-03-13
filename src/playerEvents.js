@@ -67,7 +67,7 @@ player.events.on('audioTracksAdd', (queue, tracks) => {
     const embed = new EmbedBuilder()
         .setURL(tracks[0].playlist.url)
     	.setTitle(tracks[0].playlist.title)
-        .setThumbnail(tracks[0].playlist.thumbnail)
+        .setThumbnail(tracks[0].playlist.thumbnail.url ?? tracks[0].playlist.thumbnail)
         .addFields({name: 'New Playlist Added! ✅', value: `${tracks.length} song(s) have been added to queue`})
         .setColor('#e6cc00')
 
