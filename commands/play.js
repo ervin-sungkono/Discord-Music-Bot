@@ -50,6 +50,7 @@ module.exports = {
             selfDeaf: true,
             volume: client.config.opt.defaultvolume,
             leaveOnEnd: client.config.opt.leaveOnEnd,
+            leaveOnEndCooldown: client.config.opt.leaveOnEndCooldown,
             leaveOnStop: client.config.opt.leaveOnStop,
             leaveOnEmpty: client.config.opt.leaveOnEmpty,
             leaveOnEmptyCooldown: client.config.opt.leaveOnEmptyCooldown
