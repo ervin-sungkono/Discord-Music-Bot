@@ -17,8 +17,8 @@ module.exports = {
     async execute ({ interaction }) {
         await interaction.deferReply()
 
-        const queue = player.getQueue(interaction.guildId);
-        if (!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
+        const queue = player.nodes.get(interaction.guildId);
+        if (!queue || !queue.node.isPlaying()) return client.error.DEFAULT_ERROR(interaction)
 
         const songName = interaction.options.getString('song')
         const result = await player.search(songName, {
@@ -40,8 +40,8 @@ module.exports = {
             content: `⏱| Loading your ${result.playlist ? "playlist" : "track"}`,
             ephemeral: true
         }).then(async (message) => {
-            result.playlist ? queue.insert(result.tracks) : queue.insert(result.tracks[0])
-            if (!queue.playing) await queue.play()
+            result.playlist ? queue.insertTrack(result.tracks) : queue.insertTrack(result.tracks[0])
+            if (!queue.node.isPlaying()) await queue.node.play()
             message.delete()
         })
     }

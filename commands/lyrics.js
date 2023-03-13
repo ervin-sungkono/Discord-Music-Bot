@@ -18,10 +18,10 @@ module.exports = {
     async execute({ interaction }){
         await interaction.deferReply()
 
-        const queue = player.getQueue(interaction.guildId)
-        if((!queue || !queue.playing) && !interaction.options.getString('song')) return client.error.DEFAULT_ERROR(interaction)
+        const queue = player.nodes.get(interaction.guildId)
+        if((!queue || !queue.node.isPlaying()) && !interaction.options.getString('song')) return client.error.DEFAULT_ERROR(interaction)
 
-        const query = interaction.options.getString('song') || queue.current.title
+        const query = interaction.options.getString('song') || queue.currentTrack.title
         const data = await lyricsClient.search(query)
             .catch(error => console.log(error))
 

@@ -6,11 +6,11 @@ module.exports = {
     async execute({ interaction }){
         await interaction.deferReply()
 
-        const queue = player.getQueue(interaction.guildId)
+        const queue = player.nodes.get(interaction.guildId)
         if (!queue) return client.error.DEFAULT_ERROR(interaction)
-        if (!queue.previousTracks[1]) return client.error.NO_PREVIOUS_TRACKS(interaction)
+        if (!queue.history.previousTrack) return client.error.NO_PREVIOUS_TRACKS(interaction)
 
-        await queue.back()
+        await queue.history.back()
         interaction.followUp({
             content:`Playing the **previous** track ✅`
         });

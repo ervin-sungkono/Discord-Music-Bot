@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { pagination, TypesButtons, StylesButton } = require('@devraelfreeze/discordjs-pagination')
+const { pagination, ButtonTypes, ButtonStyles } = require('@devraelfreeze/discordjs-pagination')
 
 const ITEMS_PER_PAGE = client.config.paginate.itemsPerPage
 
@@ -12,12 +12,12 @@ module.exports = {
     async execute({ interaction }){
         await interaction.deferReply()
 
-        const queue = player.getQueue(interaction.guildId)
-        if (!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
-        if (!queue.tracks[0]) return client.error.NO_NEXT_TRACKS(interaction)
+        const queue = player.nodes.get(interaction.guildId)
+        if (!queue || !queue.node.isPlaying()) return client.error.DEFAULT_ERROR(interaction)
+        if (!queue.tracks.toArray()[0]) return client.error.NO_NEXT_TRACKS(interaction)
 
-        const songs = queue.tracks.length
-        const tracks = queue.tracks.map((track, i) => `**${i + 1} - ${track.title} | ${track.author}** (requested by : ${track.requestedBy.username})`)
+        const songs = queue.getSize()
+        const tracks = queue.tracks.toArray().map((track, i) => `**${i + 1} - ${track.title} | ${track.author}** (requested by : ${track.requestedBy.username})`)
         const mode = ['OFF', '🔁', '🔂', '🅰️'];
         const pages = []
 
@@ -27,7 +27,7 @@ module.exports = {
             const nextSongs = songs > ITEMS_PER_PAGE ? endIndex > songs ? '~ End of the queue ~' : `And **${songs - endIndex}** other song(s)...` : `**${songs}** song(s) in the playlist`
             const embed = new EmbedBuilder()
                 .setTitle(`Queue List - Page ${i+1} | Loop Mode: ${mode[queue.repeatMode]}`)
-                .setDescription(`Now playing: **${queue.current.title}**\n\n${tracks.slice(startIndex, endIndex).join('\n')}\n\n${nextSongs}`)
+                .setDescription(`Now playing: **${queue.currentTrack.title}**\n\n${tracks.slice(startIndex, endIndex).join('\n')}\n\n${nextSongs}`)
                 .setColor('#ff0000')
 
             pages.push(embed)
@@ -44,14 +44,14 @@ module.exports = {
             pageTravel: client.config.paginate.pageTravel,
             buttons: [
                 {
-                    value: TypesButtons.previous,
+                    value: ButtonTypes.previous,
                     label: 'Previous',
-                    style: StylesButton.Secondary
+                    style: ButtonStyles.Secondary
                 },
                 {
-                    value: TypesButtons.next,
+                    value: ButtonTypes.next,
                     label: 'Next',
-                    style: StylesButton.Primary
+                    style: ButtonStyles.Primary
                 }
             ]
         })

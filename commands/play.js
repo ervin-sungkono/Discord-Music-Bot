@@ -27,9 +27,14 @@ module.exports = {
 
         if (!result || !result.tracks.length) return client.error.NO_RESULTS_FOUND(interaction)
 
-        const queue = await player.createQueue(interaction.guild, {
-            metadata: interaction.channel,
-            initialVolume: client.config.opt.defaultvolume,
+        const queue = await player.nodes.create(interaction.guild, {
+            metadata: {
+                channel: interaction.channel,
+                client: interaction.guild.members.me,
+                requestedBy: interaction.user,
+            },
+            selfDeaf: true,
+            volume: client.config.opt.defaultvolume,
             leaveOnEnd: client.config.opt.leaveOnEnd,
             leaveOnStop: client.config.opt.leaveOnStop,
             leaveOnEmpty: client.config.opt.leaveOnEmpty,
@@ -47,8 +52,8 @@ module.exports = {
             content: `⏱| Loading your ${result.playlist ? "playlist" : "track"}`,
             ephemeral: true
         }).then(async (message) => {
-            result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0])
-            if (!queue.playing) await queue.play()
+            queue.addTrack(result.playlist ? result.tracks : result.tracks[0])
+            if (!queue.node.isPlaying()) await queue.node.play()
             message.delete()
         });
     }

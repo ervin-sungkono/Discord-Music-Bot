@@ -4,25 +4,25 @@ module.exports = {
     },
     opt: {
         maxVol: 100,
-        defaultvolume: 75,
+        defaultvolume: 80,
         minVol: 0,
         leaveOnEnd: true,
         leaveOnEndCooldown: 300000, // 5 minutes
         leaveOnStop: true,
         leaveOnEmpty: true,
-        leaveOnEmptyCooldown: 5000, // 5 seconds
+        leaveOnEmptyCooldown: 30000, // 30 seconds
         discordPlayer: {
             ytdlOptions: {
                 quality: 'highestaudio',
-                highWaterMark: 1 << 25
+                highWaterMark: 1 << 27
             }
         }
     },
     paginate: {
         fastSkip: true, // creates two additional button, one for skip to end, one for skip to first
         pageTravel: true, // travel between pages by sending page numbers
-        disableButtons: false, // remove buttons after timeout
+        disableButtons: true, // remove buttons after timeout
         time: 60000, // 60 seconds
-        itemsPerPage: 5,
+        itemsPerPage: 8,
     }
 };

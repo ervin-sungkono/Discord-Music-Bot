@@ -25,8 +25,8 @@ module.exports = {
         const index = interaction.options.getInteger('index')
         const track = interaction.options.getString('song')
 
-        const queue = player.getQueue(interaction.guildId)
-        if(!queue || !queue.playing) return client.error.DEFAULT_ERROR(interaction)
+        const queue = player.nodes.get(interaction.guildId)
+        if(!queue || !queue.node.isPlaying()) return client.error.DEFAULT_ERROR(interaction)
 
         if (!track && !index) interaction.followUp({
             content: `You have to use one of the options to remove a song ${interaction.member}... try again ? ❌`,
@@ -34,9 +34,9 @@ module.exports = {
         });
 
         if(track){
-            const selectedTrack = queue.tracks.filter(song => song.title === track || song.url === track)[0]
+            const selectedTrack = queue.tracks.toArray().filter(song => song.title === track || song.url === track)[0]
             if(selectedTrack){
-                await queue.remove(selectedTrack)
+                await queue.removeTrack(selectedTrack)
                 return interaction.followUp({
                     content: `Removed **${selectedTrack.title}** from the queue ✅`
                 })
@@ -49,14 +49,14 @@ module.exports = {
 
         if(index){
             const trackIndex = index - 1
-            const track = queue.tracks[trackIndex]
+            const track = queue.tracks.toArray()[trackIndex]
 
             if(!track) return interaction.followUp({
                 content: `This track doesn't exist ${interaction.member}...  try again ?❌`,
                 ephemeral: true
             })
 
-            await queue.remove(trackIndex)
+            await queue.node.remove(trackIndex)
             return interaction.followUp({
                 content: `Removed **${track.title}** from the queue ✅`
             })

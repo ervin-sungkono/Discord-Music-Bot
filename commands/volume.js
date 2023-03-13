@@ -20,17 +20,17 @@ module.exports = {
     async execute({ interaction }){
         await interaction.deferReply()
 
-        const queue = player.getQueue(interaction.guildId)
+        const queue = player.nodes.get(interaction.guildId)
         if (!queue) return client.error.DEFAULT_ERROR(interaction)
 
-        const volume = parseInt(interaction.options.getNumber('amount'))
+        const volume = parseInt(interaction.options.getNumber('amount')) ?? null
 
         if(volume == null) return interaction.followUp({
             content: `🎧 Current volume is **${queue.volume}**%`,
             ephemeral: true
         })
 
-        const success = queue.setVolume(volume)
+        const success = queue.node.setVolume(volume)
         return interaction.followUp({
             content: success ?
             `Music volume set to **${volume}**%! ✅` :

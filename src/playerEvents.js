@@ -1,40 +1,44 @@
 const { QueueRepeatMode } = require('discord-player')
 const { EmbedBuilder } = require('discord.js')
 
-player.on('error', (queue, error) => {
-    client.emit('trackEnd', queue.metadata.guild.id)
+player.events.on('error', (queue, error) => {
+    client.emit('trackEnd', queue.metadata.channel.guild.id)
     console.log(`Error emitted from the queue ${error.message}`)
 })
 
-player.on('connectionError', (queue, error) => {
-    client.emit('trackEnd', queue.metadata.guild.id)
+player.events.on('playerError', (queue, error) => {
+    client.emit('trackEnd', queue.metadata.channel.guild.id)
     console.log(`Error emitted from the connection ${error.message}`)
 })
 
 const messages = {}
-player.on('trackStart', (queue, track) => {
+player.events.on('playerStart', (queue, track) => {
     if (queue.repeatMode === QueueRepeatMode.TRACK) return;
-    client.emit('trackEnd', queue.metadata.guild.id)
+    client.emit('trackEnd', queue.metadata.channel.guild.id)
     const embed = new EmbedBuilder()
         .setURL(track.url)
         .setThumbnail(track.thumbnail)
         .setTitle(`${track.title}`)
         .addFields(
-            {name: `Now Playing in ${queue.connection.channel.name} 🎧`, value: `Requested by ${track.requestedBy}`},
+            {name: `Now Playing in ${queue.metadata.channel.name} 🎧`, value: `Requested by ${track.requestedBy}`},
             {name: 'Duration', value: `\`(${track.duration})\``}
         )
         .setColor('#13f857')
 
-    queue.metadata.send({ embeds: [embed] }).then(message => messages[`${queue.metadata.guild.id}`] = message)
+    queue.metadata.channel.send({ embeds: [embed] }).then(message => messages[`${queue.metadata.channel.guild.id}`] = message)
 })
 
-player.on('trackAdd', (queue, track) => {
+player.events.on('playerSkip', (queue, track) => {
+    queue.metadata.channel.send(`Skipping **${track.title}** due to an issue!`);
+});
+
+player.events.on('audioTrackAdd', (queue, track) => {
     const embed = new EmbedBuilder()
         .setThumbnail(track.thumbnail)
         .addFields({name: 'New Track Added! ✅', value: `${track.title} \`(${track.duration})\``})
         .setColor('#e6cc00')
 
-    queue.metadata.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
+    queue.metadata.channel.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
 })
 
 client.on('trackEnd' , (guildId = 0) => {
@@ -44,22 +48,22 @@ client.on('trackEnd' , (guildId = 0) => {
     }
 })
 
-player.on('botDisconnect', (queue) => {
-    client.emit('trackEnd', queue.metadata.guild.id)
-    queue.metadata.send('I was manually disconnected from the voice channel, clearing queue... ❌')
+player.events.on('disconnect', (queue) => {
+    client.emit('trackEnd', queue.metadata.channel.guild.id)
+    queue.metadata.channel.send('I was manually disconnected from the voice channel, clearing queue... ❌')
 })
 
-player.on('channelEmpty', (queue) => {
-    client.emit('trackEnd', queue.metadata.guild.id)
-    queue.metadata.send('Nobody is in the voice channel, leaving the voice channel... ❌')
+player.events.on('emptyChannel', (queue) => {
+    client.emit('trackEnd', queue.metadata.channel.guild.id)
+    queue.metadata.channel.send('Nobody is in the voice channel, leaving the voice channel... ❌')
 })
 
-player.on('queueEnd', (queue) => {
-    client.emit('trackEnd', queue.metadata.guild.id)
-    queue.metadata.send('I finished reading the whole queue ✅')
+player.events.on('emptyQueue', (queue) => {
+    client.emit('trackEnd', queue.metadata.channel.guild.id)
+    queue.metadata.channel.send('I finished reading the whole queue ✅')
 })
 
-player.on('tracksAdd', (queue, tracks) => {
+player.events.on('audioTracksAdd', (queue, tracks) => {
     const embed = new EmbedBuilder()
         .setURL(tracks[0].playlist.url)
     	.setTitle(tracks[0].playlist.title)
@@ -67,5 +71,5 @@ player.on('tracksAdd', (queue, tracks) => {
         .addFields({name: 'New Playlist Added! ✅', value: `${tracks.length} song(s) have been added to queue`})
         .setColor('#e6cc00')
 
-    queue.metadata.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
+    queue.metadata.channel.send({ embeds: [embed] }).then(message => setTimeout(() => message.delete(), 30000)) // Delete after 30 seconds
 })
