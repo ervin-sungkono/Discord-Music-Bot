@@ -21,38 +21,32 @@ module.exports = {
     async execute({ interaction }) {
         await interaction.deferReply()
 
-        const queue = player.nodes.get(interaction.guildId);
+        const queue = player.nodes.get(interaction.guildId)
         if(!queue || !queue.node.isPlaying()) return client.error.DEFAULT_ERROR(interaction)
 
         switch (interaction.options.getInteger('action')) {
             case QueueRepeatMode.TRACK: {
-                const success = await queue.setRepeatMode( QueueRepeatMode.TRACK);
+                queue.setRepeatMode( QueueRepeatMode.TRACK )
                 
                 return interaction.followUp({
-                    content: success ?
-                    `Repeat mode **enabled** the current song will be repeated endlessly 🔁` :
-                    `Something went wrong ${interaction.member}... try again ? ❌`
-                });
+                    content: 'Repeat mode **enabled** the current song will be repeated endlessly 🔁'
+                })
             }
 
             case QueueRepeatMode.QUEUE: {
-                const success = await queue.setRepeatMode( QueueRepeatMode.QUEUE );
+                queue.setRepeatMode( QueueRepeatMode.QUEUE );
 
                 return interaction.followUp({
-                    content: success ? 
-                    `Repeat mode **enabled** the whole queue will be repeated endlessly 🔁` :
-                    `Something went wrong ${interaction.member}... try again ? ❌`
+                    content: 'Repeat mode **enabled** the whole queue will be repeated endlessly 🔁'
                 })
             }
 
             case QueueRepeatMode.OFF: {
-                const success = await queue.setRepeatMode( QueueRepeatMode.OFF );
+                queue.setRepeatMode( QueueRepeatMode.OFF );
 
                 return interaction.followUp({
-                    content:success ?
-                    `Repeat mode **disabled**` :
-                    `Something went wrong ${interaction.member}... try again ? ❌`
-                });
+                    content: 'Repeat mode **disabled**'
+                })
             }
         }
     },

@@ -12,12 +12,10 @@ module.exports = {
         if(!queue || !queue.node.isPlaying()) return client.error.DEFAULT_ERROR(interaction)
 
         const action = (queue.repeatMode === QueueRepeatMode.AUTOPLAY) ? QueueRepeatMode.OFF : QueueRepeatMode.AUTOPLAY
-        const success = await queue.setRepeatMode(action)
+        queue.setRepeatMode(action)
 
         return interaction.followUp({
-            content: success ?
-            `Autoplay ${action === QueueRepeatMode.OFF ? "Disabled" : "Enabled"}! ✅`:
-            `Something went wrong ${interaction.member}... try again ? ❌`
+            content: `Autoplay ${action === QueueRepeatMode.OFF ? "Disabled" : "Enabled"}! ✅`
         })
     }
 }
