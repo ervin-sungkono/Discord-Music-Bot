@@ -23,7 +23,7 @@ module.exports = async(client, interaction) => {
         }
         command.execute({ client, interaction })
     }
-    else if (interaction.type = InteractionType.ApplicationCommandAutocomplete) {
+    else if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
         const command = client.commands.get(interaction.commandName);
         await command.autocomplete({ interaction });
     }
