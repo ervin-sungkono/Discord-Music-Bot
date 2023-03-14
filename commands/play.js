@@ -17,15 +17,15 @@ module.exports = {
     ],
 
     async autocomplete({ interaction }) {
-        const query = interaction.options.getString('song', true);
-        const results = await player.search(query);
+        const query = interaction.options.getString('song', true)
+        const results = await player.search(query)
 
         return interaction.respond(
             results.tracks.slice(0, MAX_NUMBER_OF_CHOICES).map((t) => ({
-                name: t.title,
+                name: (`(${t.duration}) - ${t.title}`).slice(0,100),
                 value: t.url
             }))
-        );
+        )
     },
 
     async execute ({ interaction }) {

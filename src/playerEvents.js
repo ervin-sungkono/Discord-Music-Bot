@@ -20,7 +20,7 @@ player.events.on('playerStart', (queue, track) => {
         .setThumbnail(track.thumbnail)
         .setTitle(`${track.title}`)
         .addFields(
-            {name: `Now Playing in ${queue.metadata.channel.name} 🎧`, value: `Requested by ${track.requestedBy}`},
+            {name: `Now Playing in ${queue.channel.name} 🎧`, value: `Requested by ${track.requestedBy}`},
             {name: 'Duration', value: `\`(${track.duration})\``}
         )
         .setColor('#13f857')
