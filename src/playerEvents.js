@@ -50,7 +50,7 @@ client.on('trackEnd' , (guildId = 0) => {
 
 player.events.on('disconnect', (queue) => {
     client.emit('trackEnd', queue.metadata.channel.guild.id)
-    queue.metadata.channel.send('I was manually disconnected from the voice channel, clearing queue... ❌')
+    queue.metadata.channel.send('My job is done here, leaving channel...👋')
 })
 
 player.events.on('emptyChannel', (queue) => {

@@ -14,7 +14,7 @@ module.exports = {
         discordPlayer: {
             ytdlOptions: {
                 quality: 'highestaudio',
-                highWaterMark: 1 << 27
+                highWaterMark: 1 << 25
             }
         },
         maxNumberOfChoices: 10, // Maximum autocomplete choices, shouldn't be more than 25
