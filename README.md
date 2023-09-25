@@ -6,7 +6,6 @@ Libraries used in this project:
 1. [Androz2091/discord-player](https://github.com/Androz2091/discord-player)
 2. [discord.js](https://github.com/discordjs/discord.js)
 3. [@devraelfreeze/discordjs-pagination](https://github.com/devRael1/discordjs-pagination)
-4. [dotenv](https://github.com/motdotla/dotenv)
 
 ## Features
 - Easy to use 📚
