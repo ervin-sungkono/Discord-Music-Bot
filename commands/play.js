@@ -18,10 +18,12 @@ module.exports = {
 
     async autocomplete({ interaction }) {
         const query = interaction.options.getString('song', true)
+        if(!query) return
+        
         const results = await player.search(query)
 
         return interaction.respond(
-            results.tracks.slice(0, MAX_NUMBER_OF_CHOICES).map((t) => ({
+            results.tracks?.slice(0, MAX_NUMBER_OF_CHOICES).map((t) => ({
                 name: (`(${t.duration}) - ${t.title}`).slice(0,100),
                 value: t.url
             }))

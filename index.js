@@ -16,7 +16,10 @@ global.client = new Client({
 client.config = require('./config')
 client.error = require('./error')
 
-global.player = new Player(client, client.config.opt.discordPlayer)
+const player = new Player(client, client.config.opt.discordPlayer)
+player.extractors.loadDefault() // Load all extractors by default
+
+global.player = player
 
 require('./src/playerEvents')
 require('./src/loader')
